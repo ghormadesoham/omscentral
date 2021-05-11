@@ -19,9 +19,11 @@ export const NotificationContext = createContext<Nullable<Notification>>(null);
 const Notification: React.FC = ({ children }) => {
   const [toast, setToast] = useState<Nullable<ToastType>>(null);
 
-  const notifyFnFactory = (variant: Variant): NotifyFn => (message) => {
-    setToast({ variant, message });
-  };
+  const notifyFnFactory =
+    (variant: Variant): NotifyFn =>
+    (message) => {
+      setToast({ variant, message });
+    };
 
   return (
     <NotificationContext.Provider

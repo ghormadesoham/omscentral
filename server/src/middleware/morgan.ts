@@ -20,14 +20,12 @@ const getStatusColor = (statusCode: number): number => {
   return 0;
 };
 
-const getColorFn = memoize(
-  (statusCode: number): morgan.FormatFn => {
-    const color = getStatusColor(statusCode);
-    return morgan.compile(
-      `\x1b[0m:date[iso] - :method: [:pid] \x1b[${color}m:code\x1b[0m :url (:response-time ms)\x1b[0m`,
-    );
-  },
-);
+const getColorFn = memoize((statusCode: number): morgan.FormatFn => {
+  const color = getStatusColor(statusCode);
+  return morgan.compile(
+    `\x1b[0m:date[iso] - :method: [:pid] \x1b[${color}m:code\x1b[0m :url (:response-time ms)\x1b[0m`,
+  );
+});
 
 const defaultFormat = ':date[iso] - :method: :code :url (:response-time ms)';
 

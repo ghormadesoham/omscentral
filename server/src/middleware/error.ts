@@ -11,29 +11,25 @@ const parseError = (error: Error | Boom | any): Boom =>
         statusCode: error.status || error.statusCode || 500,
       });
 
-export const middleware = (): ErrorRequestHandler => (
-  error: Error | Boom | any,
-  req,
-  res,
-  next,
-) => {
-  if (!error) {
-    return next();
-  }
+export const middleware =
+  (): ErrorRequestHandler => (error: Error | Boom | any, req, res, next) => {
+    if (!error) {
+      return next();
+    }
 
-  logger.error('middleware(error):', error);
+    logger.error('middleware(error):', error);
 
-  if (error?.message === 'CORS') {
-    error = forbidden('CORS');
-  }
+    if (error?.message === 'CORS') {
+      error = forbidden('CORS');
+    }
 
-  const { output } = parseError(error);
+    const { output } = parseError(error);
 
-  return res.status(output.statusCode).json({
-    ...output.payload,
-    stack:
-      appConfig.environment === 'local'
-        ? (error.stack || '').split(/\n\s+/g)
-        : undefined,
-  });
-};
+    return res.status(output.statusCode).json({
+      ...output.payload,
+      stack:
+        appConfig.environment === 'local'
+          ? (error.stack || '').split(/\n\s+/g)
+          : undefined,
+    });
+  };

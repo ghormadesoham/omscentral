@@ -24,11 +24,12 @@ const ReviewCardListConnectedContainer: React.FC<Props> = ({
   const history = useHistory();
   const location = useLocation();
 
-  const params = useQueryParams<{
-    [QueryParam.Course]: string[];
-    [QueryParam.Semester]: string[];
-    [QueryParam.Sort]: SortKey;
-  }>();
+  const params =
+    useQueryParams<{
+      [QueryParam.Course]: string[];
+      [QueryParam.Semester]: string[];
+      [QueryParam.Sort]: SortKey;
+    }>();
 
   const courseFilter = asArray<string>(variables?.course_ids || params.course);
   const semesterFilter = asArray<string>(params.semester);
@@ -82,20 +83,19 @@ const ReviewCardListConnectedContainer: React.FC<Props> = ({
     }
   };
 
-  const handleFilterChange = (param: QueryParam, oldFilter: string[]) => (
-    newFilter: string[],
-  ) => {
-    if (newFilter.sort().join(',') !== oldFilter.sort().join(',')) {
-      setLimit(10);
+  const handleFilterChange =
+    (param: QueryParam, oldFilter: string[]) => (newFilter: string[]) => {
+      if (newFilter.sort().join(',') !== oldFilter.sort().join(',')) {
+        setLimit(10);
 
-      history.push({
-        search: qs.stringify({
-          ...qs.parse(location.search),
-          [param]: newFilter,
-        }),
-      });
-    }
-  };
+        history.push({
+          search: qs.stringify({
+            ...qs.parse(location.search),
+            [param]: newFilter,
+          }),
+        });
+      }
+    };
 
   const handleCourseFilterChange = handleFilterChange(
     QueryParam.Course,

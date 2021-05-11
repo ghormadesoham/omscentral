@@ -10,9 +10,10 @@ import useQueryParams from './useQueryParams';
  */
 const useCurrentCourses = (): Course[] => {
   const { id: courseID } = useParams<{ id: string }>();
-  const { course: courseIDs } = useQueryParams<{
-    [QueryParam.Course]: string[];
-  }>();
+  const { course: courseIDs } =
+    useQueryParams<{
+      [QueryParam.Course]: string[];
+    }>();
 
   const ids = (courseIDs ?? []).concat(courseID);
 

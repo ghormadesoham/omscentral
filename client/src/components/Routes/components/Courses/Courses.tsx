@@ -62,10 +62,10 @@ const Courses: React.FC<Props> = ({
     [filter, specialization, bySpec],
   );
 
-  const filtered = useMemo(() => (courses || []).filter(filterBy), [
-    courses,
-    filterBy,
-  ]);
+  const filtered = useMemo(
+    () => (courses || []).filter(filterBy),
+    [courses, filterBy],
+  );
 
   const handleCourseClick = (course: Course) => {
     if (course.metric?.reviews.count) {
