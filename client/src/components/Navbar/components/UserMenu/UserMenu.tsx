@@ -11,8 +11,14 @@ const UserMenu: React.FC = () => (
     items={[
       { key: 'profile', path: paths.userProfile, caption: 'My Profile' },
       { key: 'reviews', path: paths.userReviews, caption: 'My Reviews' },
+      {
+        key: 'personalization',
+        path: paths.userPersonalization,
+        caption: 'My Personalization',
+      },
     ]}
   />
 );
+// TODO: rename personalization to preferences
 
 export default UserMenu;

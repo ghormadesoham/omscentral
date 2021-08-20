@@ -20,4 +20,5 @@ export const paths = {
   terms: '/terms',
   userProfile: '/user/profile',
   userReviews: '/user/reviews',
+  userPersonalization: '/user/personalization',
 };

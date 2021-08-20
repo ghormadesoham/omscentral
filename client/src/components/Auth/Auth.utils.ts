@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import { UserInputType } from 'src/graphql';
+import { UserInputType, UserPersonalizationInputType } from 'src/graphql';
 
 export const toInput = (user: firebase.User): UserInputType => {
   const [providerData] = user.providerData;
@@ -21,5 +21,15 @@ export const toInput = (user: firebase.User): UserInputType => {
     name,
     photo_url,
     last_signed_in: new Date().getTime(),
+  };
+};
+export const toUserPersonalizationInput = (
+  user: firebase.User,
+): UserPersonalizationInputType => {
+  return {
+    id: user.uid, // reuse user id
+    type: 'email_frequency',
+    value: 'daily',
+    user_id: user.uid,
   };
 };
