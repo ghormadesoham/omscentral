@@ -33,7 +33,7 @@ const UserPersonalizationForm: React.FC<Props> = ({
   const form = useForm<UserPersonalizationInputType>({
     defaultValues: userPersonalization,
   });
-  const { handleSubmit, register } = form;
+  const { handleSubmit, register, errors, watch } = form;
 
   const [title, action] =
     mode === 'edit'
@@ -65,21 +65,40 @@ const UserPersonalizationForm: React.FC<Props> = ({
                 inputRef={register}
               />
             </Grid>
-            {userPersonalization?.type && (
-              <Grid item xs={12}>
-                <TextField
-                  data-cy="userPersonalization:type"
-                  id="type"
-                  name="type"
-                  label="type"
-                  autoComplete="type"
-                  variant="outlined"
-                  fullWidth
-                  disabled
-                  inputRef={register}
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <TextField
+                data-cy="userPersonalization:type"
+                id="name"
+                name="type"
+                label="Type"
+                autoComplete="frequency"
+                variant="outlined"
+                autoFocus
+                fullWidth
+                required
+                disabled={disabled || mode === 'view'}
+                inputRef={register({ required: true })}
+                error={Boolean(errors.type)}
+                helperText={errors.type?.message}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                data-cy="userPersonalization:value"
+                id="value"
+                name="value"
+                label="Value"
+                autoComplete="daily"
+                variant="outlined"
+                autoFocus
+                fullWidth
+                required
+                disabled={disabled || mode === 'view'}
+                inputRef={register({ required: true })}
+                error={Boolean(errors.value)}
+                helperText={errors.value?.message}
+              />
+            </Grid>
           </Grid>
           <Button
             data-cy="userPersonalization:submit"
