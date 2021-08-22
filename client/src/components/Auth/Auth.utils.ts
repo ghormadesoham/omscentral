@@ -27,7 +27,7 @@ export const toUserPersonalizationInput = (
   user: firebase.User,
 ): UserPersonalizationInputType => {
   return {
-    id: user.uid, // reuse user id
+    id: '-1', // set on server side
     type: 'email_frequency',
     value: 'daily',
     user_id: user.uid,

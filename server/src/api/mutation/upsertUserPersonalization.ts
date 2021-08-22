@@ -2,6 +2,7 @@ import { badRequest, forbidden } from '@hapi/boom';
 
 import { upsertUserPersonalization } from '../../functions';
 import { MutationResolvers } from '../../graphql';
+import { id } from '../../utils';
 import { userPersonalizationSchema } from '../schema';
 
 type Resolver = MutationResolvers['upsertUserPersonalization'];
@@ -11,7 +12,7 @@ export const resolver: Resolver = async (
   { userPersonalization },
   { req },
 ) => {
-  if (req.userId !== userPersonalization.id) {
+  if (req.userId !== userPersonalization.user_id) {
     throw forbidden();
   }
 
@@ -22,5 +23,5 @@ export const resolver: Resolver = async (
     throw badRequest(error.message);
   }
 
-  return upsertUserPersonalization(req.userId, value);
+  return upsertUserPersonalization(id(), value);
 };
