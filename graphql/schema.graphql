@@ -237,8 +237,12 @@ type Query {
   "Fetches user personalization for a user."
   userPersonalization(id: String!): UserPersonalization!
 
-  "Fetches user personalization for a user by user_id."
-  userPersonalizationByUserId(user_id: String!): UserPersonalization!
+  "Fetches some user personalizations."
+  userPersonalizations(
+    user_ids: [String!]! = []
+    types: [String!]! = []
+    values: [String!]! = []
+  ): [UserPersonalization!]!
 
   "Fetches some reviews."
   reviews(

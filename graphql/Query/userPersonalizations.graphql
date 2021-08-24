@@ -1,0 +1,12 @@
+query userPersonalizations(
+  $types: [String!]! = []
+  $values: [String!]! = []
+  $user_ids: [String!]! = []
+) {
+  userPersonalizations(types: $types, values: $values, user_ids: $user_ids) {
+    id
+    type
+    value
+    user_id
+  }
+}

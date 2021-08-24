@@ -1,6 +1,9 @@
 import firebase from 'firebase/app';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Nullable } from 'src/core';
+import { EmailFrequency } from 'src/core/types/EmailFrequency';
+import { PersonalizationTypes } from 'src/core/types/PersonalizationTypes';
+import { TimeZones } from 'src/core/types/TimeZones';
 import storage from 'src/core/utils/storage';
 import apollo from 'src/data/apollo';
 import {
@@ -56,7 +59,20 @@ const Auth: React.FC = ({ children }) => {
 
       await upsertUserPersonalization({
         variables: {
-          userPersonalization: toUserPersonalizationInput(authUser),
+          userPersonalization: toUserPersonalizationInput(
+            authUser,
+            PersonalizationTypes.EmailFrequency,
+            EmailFrequency.Daily,
+          ),
+        },
+      });
+      await upsertUserPersonalization({
+        variables: {
+          userPersonalization: toUserPersonalizationInput(
+            authUser,
+            PersonalizationTypes.TimeZone,
+            TimeZones.EST,
+          ),
         },
       });
 

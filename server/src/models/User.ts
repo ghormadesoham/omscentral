@@ -4,6 +4,7 @@ import { AuthProvider, Role } from '../enums';
 import { Domain } from './Domain';
 import { Program } from './Program';
 import { Specialization } from './Specialization';
+import { UserPersonalization } from './UserPersonalization';
 import { withDates } from './utils';
 
 export class User extends withDates(Domain) {

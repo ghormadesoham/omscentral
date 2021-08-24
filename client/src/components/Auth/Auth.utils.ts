@@ -23,13 +23,16 @@ export const toInput = (user: firebase.User): UserInputType => {
     last_signed_in: new Date().getTime(),
   };
 };
+
 export const toUserPersonalizationInput = (
   user: firebase.User,
+  type: string,
+  value: string,
 ): UserPersonalizationInputType => {
   return {
     id: '-1', // set on server side
-    type: 'email_frequency',
-    value: 'daily',
+    type: type,
+    value: value,
     user_id: user.uid,
   };
 };

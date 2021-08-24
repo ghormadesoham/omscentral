@@ -33,8 +33,9 @@ const UserPersonalizationForm: React.FC<Props> = ({
   const form = useForm<UserPersonalizationInputType>({
     defaultValues: userPersonalization,
   });
-  const { handleSubmit, register, errors, watch } = form;
-
+  const { handleSubmit, register, errors } = form;
+  // TODO: 3:show options in drop down
+  // TODO: see UserForm program_id
   const [title, action] =
     mode === 'edit'
       ? ['Update User Personalization', 'Update']

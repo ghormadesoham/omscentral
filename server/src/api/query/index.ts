@@ -9,6 +9,7 @@ import { resolver as semesters } from './semesters';
 import { resolver as specializations } from './specializations';
 import { resolver as user } from './user';
 import { resolver as userPersonalization } from './userPersonalization';
+import { resolver as userPersonalizations } from './userPersonalizations';
 
 export const Query: QueryResolvers = {
   config,
@@ -21,4 +22,5 @@ export const Query: QueryResolvers = {
   specializations,
   user,
   userPersonalization,
+  userPersonalizations,
 };

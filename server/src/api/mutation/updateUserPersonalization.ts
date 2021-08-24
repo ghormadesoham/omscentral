@@ -11,7 +11,7 @@ export const resolver: Resolver = async (
   { userPersonalization },
   { req },
 ) => {
-  if (req.userId !== userPersonalization.id) {
+  if (req.userId !== userPersonalization.user_id) {
     throw forbidden();
   }
 
@@ -22,5 +22,5 @@ export const resolver: Resolver = async (
     throw badRequest(error.message);
   }
 
-  return updateUserPersonalization(req.userId, value);
+  return updateUserPersonalization(userPersonalization.id, value);
 };
