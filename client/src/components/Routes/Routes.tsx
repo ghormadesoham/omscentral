@@ -89,6 +89,11 @@ const routes: Route[] = [
     auth: true,
   },
   {
+    path: paths.userPersonalization,
+    component: lazy(() => import('./components/Personalization')),
+    auth: true,
+  },
+  {
     path: '*',
     component: Error404,
   },

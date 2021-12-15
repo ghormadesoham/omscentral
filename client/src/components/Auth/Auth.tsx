@@ -4,10 +4,13 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Nullable } from 'src/core';
 import storage from 'src/core/utils/storage';
 import apollo from 'src/data/apollo';
-import { useUpsertUserMutation } from 'src/graphql';
+import {
+  useUpsertUserMutation,
+  useUpsertUserPersonalizationMutation,
+} from 'src/graphql';
 
 import { FirebaseContext } from '../Firebase';
-import { toInput } from './Auth.utils';
+import { toInput, toUserPersonalizationInput } from './Auth.utils';
 
 interface State {
   initializing: boolean;
@@ -27,6 +30,7 @@ const Auth: React.FC = ({ children }) => {
   const firebase = useContext(FirebaseContext);
   const [state, setState] = useState<State>(initialState);
   const [upsertUser] = useUpsertUserMutation();
+  const [upsertUserPersonalization] = useUpsertUserPersonalizationMutation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebase.auth, async (authUser) => {
@@ -51,6 +55,12 @@ const Auth: React.FC = ({ children }) => {
         },
       });
 
+      await upsertUserPersonalization({
+        variables: {
+          userPersonalization: toUserPersonalizationInput(authUser),
+        },
+      });
+
       if (result.errors && result.errors.length) {
         await signOut(firebase.auth);
         return;
@@ -69,7 +79,7 @@ const Auth: React.FC = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [firebase, upsertUser]);
+  }, [firebase, upsertUser, upsertUserPersonalization]);
 
   return (
     <AuthContext.Provider value={{ ...state }}>{children}</AuthContext.Provider>

@@ -193,6 +193,20 @@ type User {
 }
 
 """
+User personalization for a given user specified by id.
+"""
+type UserPersonalization {
+  "id"
+  id: String!
+  "frequency"
+  type: String
+  "daily"
+  value: String
+  "user id"
+  user_id: String!
+}
+
+"""
 API queries.
 """
 type Query {
@@ -223,6 +237,12 @@ type Query {
 
   "Fetches a user."
   user(id: String!): User!
+
+  "Fetches user personalization for a user."
+  userPersonalization(id: String!): UserPersonalization!
+
+  "Fetches user personalization for a user by user_id."
+  userPersonalizationByUserId(user_id: String!): UserPersonalization!
 
   "Fetches some reviews."
   reviews(
@@ -267,6 +287,13 @@ type LearnMoreResponseType {
   success: Boolean!
 }
 
+input UserPersonalizationInputType {
+  id: String!
+  type: String
+  value: String
+  user_id: String!
+}
+
 """
 API mutations.
 """
@@ -274,8 +301,17 @@ type Mutation {
   "Upserts a user record."
   upsertUser(user: UserInputType!): User!
 
+  "Upserts a user personalization record."
+  upsertUserPersonalization(
+    userPersonalization: UserPersonalizationInputType!
+  ): UserPersonalization!
+
   "Updates a user record."
   updateUser(user: UserInputType!): User!
+  "Updates a user personalization record."
+  updateUserPersonalization(
+    userPersonalization: UserPersonalizationInputType!
+  ): UserPersonalization!
 
   "Creates a review record."
   insertReview(review: ReviewInputType!): Review!

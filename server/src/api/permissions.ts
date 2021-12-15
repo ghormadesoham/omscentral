@@ -24,10 +24,13 @@ export const permissions = shield(
       semesters: allow,
       specializations: allow,
       user: isSelf,
+      userPersonalization: isSelf,
     },
     Mutation: {
       '*': deny,
       upsertUser: isSignedIn,
+      upsertUserPersonalization: isSignedIn,
+      updateUserPersonalization: isSignedIn,
       updateUser: isSignedIn,
       insertReview: isSignedIn,
       updateReview: isSignedIn,

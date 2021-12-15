@@ -1,0 +1,10 @@
+mutation upsertUserPersonalization(
+  $userPersonalization: UserPersonalizationInputType!
+) {
+  upsertUserPersonalization(userPersonalization: $userPersonalization) {
+    id
+    type
+    value
+    user_id
+  }
+}
