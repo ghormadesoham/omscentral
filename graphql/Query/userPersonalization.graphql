@@ -1,0 +1,8 @@
+query userPersonalization($id: String!) {
+  userPersonalization(id: $id) {
+    id
+    user_id
+    type
+    value
+  }
+}

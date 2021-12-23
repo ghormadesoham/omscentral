@@ -224,6 +224,13 @@ type Query {
   "Fetches a user."
   user(id: String!): User!
 
+  #  TODO: Add userPersonalizations query to fetch all userPersonalizations
+  #   (a)for a given user by user_id
+  #   (b) of specified type and value e.g frequency = daily
+
+  "Fetches a user."
+  userPersonalization(id: String!): UserPersonalization!
+
   "Fetches some reviews."
   reviews(
     order_by_desc: [String!]! = ["created"]
@@ -257,6 +264,13 @@ input UserInputType {
   program_id: String
   specialization_id: String
   last_signed_in: Float!
+}
+
+input UserPersonalizationInputType {
+  id: String!
+  user_id: String!
+  type: String
+  value: String
 }
 
 input LearnMoreInputType {
