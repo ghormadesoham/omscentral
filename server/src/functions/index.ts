@@ -10,6 +10,7 @@ export * from './reportReview';
 export * from './searchReviews';
 export * from './updateReview';
 export * from './updateUser';
+export * from './updateUserPersonalization';
 export * from './upsertCourseMetrics';
 export * from './upsertCourses';
 export * from './upsertSemesters';
