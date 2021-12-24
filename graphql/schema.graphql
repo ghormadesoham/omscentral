@@ -330,3 +330,306 @@ type Mutation {
   "Submits a Learn More inquiry."
   learnMore(input: LearnMoreInputType!): LearnMoreResponseType!
 }
+"""
+Application configuration settings.
+"""
+type Config {
+  "Identifier of the configuration setting."
+  id: String!
+  "Configration setting value (could be anything: JSON, literal, etc.)"
+  value: String!
+}
+
+"""
+Statistically interesting values for a dataset.
+"""
+type Stats {
+  mean: Float!
+  median: Float!
+  mode: Float!
+  min: Float!
+  max: Float!
+}
+
+"""
+Metrics aggregated across a course's set of reviews.
+"""
+type CourseReviewsMetrics {
+  "Number of reviews."
+  count: Int!
+  "Metrics around difficulty (1-Very Easy, 5-Very Hard)."
+  difficulty: Stats!
+  "Metrics around workload (number of hours per week)."
+  workload: Stats!
+  "Metrics around rating (1-Strongly Disliked, 5-Strongly Liked)."
+  rating: Stats!
+}
+
+"""
+Various metrics aggragated across data associated with a course.
+"""
+type CourseMetric {
+  "Metrics around the reviews posted for a course."
+  reviews: CourseReviewsMetrics!
+  "IDs of semesters for which course has a review published."
+  semesters: [String!]!
+}
+
+"""
+OMS course offering.
+"""
+type Course {
+  id: String!
+  "Acronym for the course department (e.g. CS, CSE)."
+  department: String!
+  "May be a number or a number followed by a section identifier."
+  number: String!
+  "Descriptive name of the course."
+  name: String!
+  "Aliases or acronyms of the course."
+  aliases: [String!]!
+  "Whether course is flagged as foundational in OMS."
+  foundational: Boolean!
+  "Whether course is no longer offered."
+  deprecated: Boolean!
+  "OMSCS website link."
+  link: String
+  "Metrics aggregations for the course."
+  metric: CourseMetric
+}
+
+"""
+OMS program (CS, Cyber, Analytics).
+"""
+type Program {
+  id: String!
+  name: String!
+  "pe.gatech.edu URL for more information about the program."
+  url: String!
+}
+
+"""
+OMS specialization requirements (core, electives, etc).
+"""
+type SpecializationRequirement {
+  type: String!
+  count: Int!
+  courses: [String!]!
+}
+
+"""
+OMS specialization track.
+"""
+type Specialization {
+  id: String!
+  program: Program!
+  program_id: String!
+  name: String!
+  requirements: [SpecializationRequirement!]!
+}
+
+"""
+Fall, Spring, or Summer semester in a given year.
+"""
+type Semester {
+  "ID that can be used to sort semesters in chronological order."
+  id: String!
+  "4-digit year."
+  year: Int!
+  "0-Unknown, 1-Spring, 2-Summer, 3-Fall"
+  season: Int!
+  "For example, 'Summer 2015'."
+  name: String!
+}
+"""
+Review metadata that the legacy application used to collect.
+"""
+type ReviewMeta {
+  extraCredit: Boolean!
+  firstCourse: Boolean!
+  frontLoad: Boolean!
+  groupProjects: Float
+  moneySpent: Float
+  proctortrack: Boolean
+  program: Float
+  projects: Float
+  tests: Float
+}
+"""
+Someone's opinion/thoughts about some course offering.
+"""
+type Review {
+  "UUID."
+  id: String!
+  # "The person who wrote the review."
+  # author: User!
+  author_id: String!
+  "The course for which the review was written."
+  course: Course!
+  course_id: String!
+  "Semester when the course was taken."
+  semester: Semester!
+  semester_id: String!
+  "How difficult did the author find the course?"
+  difficulty: Int
+  "How did the author feel about the course?"
+  rating: Int
+  "How many hours did the author spend on course work per week?"
+  workload: Float
+  "What text did the author provide?"
+  body: String
+  "Legacy data."
+  meta: ReviewMeta
+  "Epoch time (ms)."
+  created: Float!
+  "Epoch time (ms)."
+  updated: Float
+}
+"""
+Someone who users things ... and authors course reviews.
+"""
+type User {
+  "Firebase-assigned ID that is unique among auth providers for a user."
+  id: String!
+  "Facebook, github, google, password, twitter, etc."
+  auth_provider: String!
+  "No longer used."
+  password_hash: String
+  "No longer used."
+  password_salt: String
+  "May be NULL if user opts not to give us access to email."
+  email: String
+  "Full name of the user (hopefully)."
+  name: String
+  "Currently, there is just one role: 'basic'."
+  role: String!
+  "Profile image of the user (if we have it)."
+  photo_url: String
+  "Whether user prefers to remain anonymous."
+  anonymous: Boolean!
+  "Program in which user is enrolled."
+  program: Program
+  program_id: String
+  "Specialization in which user is enrolled."
+  specialization: Specialization
+  specialization_id: String
+  "Epoch time (ms)."
+  last_signed_in: Float!
+  "Epoch time (ms)."
+  created: Float!
+  "Epoch time (ms)."
+  updated: Float
+}
+"""
+Personalization data corresponding to a User with a user_id
+"""
+type UserPersonalization {
+  "id"
+  id: String!
+  "The id corresponding to the user."
+  user_id: String!
+  "Type of personalization e.g frequency"
+  type: String
+  "Value for the type e.g daily"
+  value: String
+}
+"""
+API queries.
+"""
+type Query {
+  "Fetches a config record by ID."
+  config(id: String!): Config!
+  "Fetches a course."
+  course(
+    id: String!
+    semester_ids: [String!]! = []
+    difficulties: [Int!]! = []
+  ): Course!
+  "Fetches all courses."
+  courses: [Course!]!
+  "Fetches all programs."
+  programs: [Program!]!
+  "Fetches one review."
+  review(id: String!): Review!
+  "Fetches all semesters."
+  semesters: [Semester!]!
+  "Fetches all specializations."
+  specializations: [Specialization!]!
+  "Fetches a user."
+  user(id: String!): User!
+  #  TODO: Add userPersonalizations query to fetch all userPersonalizations
+  #   (a)for a given user by user_id
+  #   (b) of specified type and value e.g frequency = daily
+  "Fetches a user."
+  userPersonalization(id: String!): UserPersonalization!
+  "Fetches some reviews."
+  reviews(
+    order_by_desc: [String!]! = ["created"]
+    offset: Int = 0
+    limit: Int = 100
+    course_ids: [String!]! = []
+    author_ids: [String!]! = []
+    semester_ids: [String!]! = []
+    difficulties: [Int!]! = []
+    query: String = ""
+  ): [Review!]!
+}
+input ReviewInputType {
+  id: String!
+  author_id: String!
+  course_id: String!
+  semester_id: String!
+  difficulty: Int!
+  rating: Int!
+  workload: Float!
+  body: String!
+}
+input UserInputType {
+  id: String!
+  auth_provider: String!
+  email: String
+  name: String
+  photo_url: String
+  program_id: String
+  specialization_id: String
+  last_signed_in: Float!
+}
+input UserPersonalizationInputType {
+  id: String!
+  user_id: String!
+  type: String
+  value: String
+}
+input LearnMoreInputType {
+  message: String!
+}
+type LearnMoreResponseType {
+  success: Boolean!
+}
+"""
+API mutations.
+"""
+type Mutation {
+  "Upserts a user record."
+  upsertUser(user: UserInputType!): User!
+  "Updates a user record."
+  updateUser(user: UserInputType!): User!
+  "Upserts a user personalization record."
+  upsertUserPersonalization(
+    userPersonalization: UserPersonalizationInputType!
+  ): UserPersonalization!
+  "Updates a user personalization record."
+  updateUserPersonalization(
+    userPersonalization: UserPersonalizationInputType!
+  ): UserPersonalization!
+  "Creates a review record."
+  insertReview(review: ReviewInputType!): Review!
+  "Updates a review record."
+  updateReview(review: ReviewInputType!): Review!
+  "Soft-deletes a review record."
+  deleteReview(id: String!): Review!
+  "Flags a review for review by admins."
+  reportReview(id: String!): Boolean!
+  "Submits a Learn More inquiry."
+  learnMore(input: LearnMoreInputType!): LearnMoreResponseType!
+}

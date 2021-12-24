@@ -5,7 +5,9 @@ import { resolver as learnMore } from './learnMore';
 import { resolver as reportReview } from './reportReview';
 import { resolver as updateReview } from './updateReview';
 import { resolver as updateUser } from './updateUser';
+import { resolver as updateUserPersonalization } from './updateUserPersonalization';
 import { resolver as upsertUser } from './upsertUser';
+import { resolver as upsertUserPersonalization } from './upsertUserPersonalization';
 
 export const Mutation: MutationResolvers = {
   deleteReview,
@@ -15,4 +17,6 @@ export const Mutation: MutationResolvers = {
   updateReview,
   updateUser,
   upsertUser,
+  updateUserPersonalization,
+  upsertUserPersonalization,
 };

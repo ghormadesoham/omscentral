@@ -10,3 +10,4 @@ export * from './Semester';
 export * from './Session';
 export * from './Specialization';
 export * from './User';
+export * from './UserPersonalization';
