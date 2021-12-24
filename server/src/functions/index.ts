@@ -16,3 +16,4 @@ export * from './upsertCourses';
 export * from './upsertSemesters';
 export * from './upsertSpecializations';
 export * from './upsertUser';
+export * from './upsertUserPersonalization';
