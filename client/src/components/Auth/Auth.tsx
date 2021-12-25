@@ -4,7 +4,10 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Nullable } from 'src/core';
 import storage from 'src/core/utils/storage';
 import apollo from 'src/data/apollo';
-import { useUpsertUserMutation } from 'src/graphql';
+import {
+  useUpsertUserMutation,
+  useUserPersonalizationQuery,
+} from 'src/graphql';
 
 import { FirebaseContext } from '../Firebase';
 import { toInput } from './Auth.utils';
@@ -27,7 +30,12 @@ const Auth: React.FC = ({ children }) => {
   const firebase = useContext(FirebaseContext);
   const [state, setState] = useState<State>(initialState);
   const [upsertUser] = useUpsertUserMutation();
-
+  const { data } = useUserPersonalizationQuery({
+    variables: {
+      id: '2L3gzfIq6kfXpwt5uspRljgvTkt1',
+    },
+  });
+  console.log(data?.userPersonalization);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebase.auth, async (authUser) => {
       apollo.resetStore();
