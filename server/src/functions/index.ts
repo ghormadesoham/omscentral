@@ -3,6 +3,7 @@ export * from './deleteUser';
 export * from './getCourseMetrics';
 export * from './getReview';
 export * from './getUser';
+export * from './getUserPersonalization';
 export * from './indexReviews';
 export * from './insertReview';
 export * from './learnMore';
