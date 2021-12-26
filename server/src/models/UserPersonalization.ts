@@ -17,7 +17,7 @@ export class UserPersonalization extends withDates(Domain) {
 
   static relationMappings = {
     user: {
-      relation: Domain.HasOneRelation,
+      relation: Domain.BelongsToOneRelation,
       modelClass: UserPersonalization,
       join: {
         from: `${UserPersonalization.tableName}.user_id`,
