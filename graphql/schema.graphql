@@ -201,9 +201,9 @@ type UserPersonalization {
   "The id corresponding to the user."
   user_id: String!
   "Type of personalization e.g frequency"
-  type: String
+  type: String!
   "Value for the type e.g daily"
-  value: String
+  value: String!
 }
 
 """
@@ -241,6 +241,7 @@ type Query {
   #  TODO: Add userPersonalizations query to fetch all userPersonalizations
   #   (a)for a given user by user_id
   #   (b) of specified type and value e.g frequency = daily
+
   "Fetches a user."
   userPersonalization(id: String!): UserPersonalization!
 
@@ -281,9 +282,8 @@ input UserInputType {
 
 input UserPersonalizationInputType {
   id: String!
-  user_id: String!
-  type: String
-  value: String
+  type: String!
+  value: String!
 }
 
 input LearnMoreInputType {
@@ -308,6 +308,7 @@ type Mutation {
   upsertUserPersonalization(
     userPersonalization: UserPersonalizationInputType!
   ): UserPersonalization!
+
   "Updates a user personalization record."
   updateUserPersonalization(
     userPersonalization: UserPersonalizationInputType!
@@ -327,18 +328,4 @@ type Mutation {
 
   "Submits a Learn More inquiry."
   learnMore(input: LearnMoreInputType!): LearnMoreResponseType!
-}
-
-"""
-Personalization data corresponding to a User with a user_id
-"""
-type UserPersonalization {
-  "id"
-  id: String!
-  "The id corresponding to the user."
-  user_id: String!
-  "Type of personalization e.g frequency"
-  type: String
-  "Value for the type e.g daily"
-  value: String
 }

@@ -11,10 +11,6 @@ export const resolver: Resolver = async (
   { userPersonalization },
   { req },
 ) => {
-  if (req.userId !== userPersonalization.user_id) {
-    throw forbidden();
-  }
-
   const { value, error } = await userPersonalizationSchema.validate(
     userPersonalization,
   );

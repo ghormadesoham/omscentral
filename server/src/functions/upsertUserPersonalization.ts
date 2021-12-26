@@ -8,7 +8,6 @@ export const upsertUserPersonalization = async (
   userPersonalization: PMO<UserPersonalization>,
 ): Promise<UserPersonalization> => {
   const existing = await UserPersonalization.query().findById(id);
-  // TODO: check if user.name is needed. Compare with user.ts in parent folder
   if (existing) {
     return updateUserPersonalization(id, {
       ...userPersonalization,
