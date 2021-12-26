@@ -13,8 +13,8 @@ exports.up = async (knex: Knex) => {
       .inTable(User.tableName)
       .index(`index_${UserPersonalization.tableName}_user_id`)
       .onDelete('CASCADE');
-    tb.text('type').nullable();
-    tb.text('value').nullable();
+    tb.text('type').notNullable();
+    tb.text('value').notNullable();
   });
 };
 

@@ -17,7 +17,7 @@ export class UserPersonalization extends withDates(Domain) {
 
   static relationMappings = {
     user: {
-      relation: Domain.HasOneRelation,
+      relation: Domain.BelongsToOneRelation,
       modelClass: UserPersonalization,
       join: {
         from: `${UserPersonalization.tableName}.user_id`,
@@ -28,12 +28,12 @@ export class UserPersonalization extends withDates(Domain) {
 
   static jsonSchema = {
     type: 'object',
-    required: ['id', 'user_id'],
+    required: ['id', 'user_id', 'type', 'value'],
     properties: {
       id: { type: 'string' },
       user_id: { type: 'string' },
-      type: { type: ['string', 'null'] },
-      value: { type: ['string', 'null'] },
+      type: { type: ['string'] },
+      value: { type: ['string'] },
       user: User.jsonSchema,
     },
   };
