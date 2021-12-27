@@ -282,6 +282,7 @@ input UserInputType {
 
 input UserPersonalizationInputType {
   id: String!
+  user_id: String!
   type: String!
   value: String!
 }

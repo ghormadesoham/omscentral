@@ -5,7 +5,9 @@ import { Nullable } from 'src/core';
 import storage from 'src/core/utils/storage';
 import apollo from 'src/data/apollo';
 import {
+  useUpdateUserPersonalizationMutation,
   useUpsertUserMutation,
+  useUpsertUserPersonalizationMutation,
   useUserPersonalizationQuery,
 } from 'src/graphql';
 
@@ -30,12 +32,16 @@ const Auth: React.FC = ({ children }) => {
   const firebase = useContext(FirebaseContext);
   const [state, setState] = useState<State>(initialState);
   const [upsertUser] = useUpsertUserMutation();
-  const { data } = useUserPersonalizationQuery({
+  const [upsertUserPersonalization] = useUpsertUserPersonalizationMutation();
+  // Test get query
+  const { data, loading, error } = useUserPersonalizationQuery({
     variables: {
-      id: '2L3gzfIq6kfXpwt5uspRljgvTkt1',
+      id: '-MrwCHcCjvFijpDQsbBy',
     },
   });
+
   console.log(data?.userPersonalization);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebase.auth, async (authUser) => {
       apollo.resetStore();
@@ -56,6 +62,17 @@ const Auth: React.FC = ({ children }) => {
       const result = await upsertUser({
         variables: {
           user: toInput(authUser),
+        },
+      });
+      // Test upsert
+      const result2 = await upsertUserPersonalization({
+        variables: {
+          userPersonalization: {
+            id: 'dummy',
+            user_id: authUser.uid,
+            type: 'frequency',
+            value: 'daily',
+          },
         },
       });
 

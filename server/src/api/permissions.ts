@@ -24,11 +24,14 @@ export const permissions = shield(
       semesters: allow,
       specializations: allow,
       user: isSelf,
+      userPersonalization: allow, // user is validated
     },
     Mutation: {
       '*': deny,
       upsertUser: isSignedIn,
+      upsertUserPersonalization: isSignedIn,
       updateUser: isSignedIn,
+      updateUserPersonalization: isSignedIn,
       insertReview: isSignedIn,
       updateReview: isSignedIn,
       deleteReview: isSignedIn,

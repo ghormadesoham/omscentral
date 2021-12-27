@@ -4,19 +4,19 @@ import { Domain } from './Domain';
 import { User } from './User';
 import { withDates } from './utils';
 
-export class UserPersonalization extends withDates(Domain) {
+export class UserPersonalization extends Domain {
   id!: string;
   user_id!: string;
 
-  type!: string | null;
-  value!: string | null;
+  type!: string;
+  value!: string;
 
   user!: User;
 
   static tableName = 'omscentral_user_personalization';
 
   static relationMappings = {
-    user: {
+    userPersonalization: {
       relation: Domain.BelongsToOneRelation,
       modelClass: UserPersonalization,
       join: {
