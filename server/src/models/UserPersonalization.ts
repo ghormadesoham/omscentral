@@ -2,9 +2,8 @@ import { QueryBuilder } from 'objection';
 
 import { Domain } from './Domain';
 import { User } from './User';
-import { withDates } from './utils';
 
-export class UserPersonalization extends withDates(Domain) {
+export class UserPersonalization extends Domain {
   id!: string;
   user_id!: string;
 
@@ -16,7 +15,7 @@ export class UserPersonalization extends withDates(Domain) {
   static tableName = 'omscentral_user_personalization';
 
   static relationMappings = {
-    user: {
+    userPersonalization: {
       relation: Domain.BelongsToOneRelation,
       modelClass: UserPersonalization,
       join: {
