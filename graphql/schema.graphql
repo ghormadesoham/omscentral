@@ -193,6 +193,20 @@ type User {
 }
 
 """
+Personalization data corresponding to a User with a user_id
+"""
+type UserPersonalization {
+  "id"
+  id: String!
+  "The id corresponding to the user."
+  user_id: String!
+  "Type of personalization e.g frequency"
+  type: String!
+  "Value for the type e.g daily"
+  value: String!
+}
+
+"""
 API queries.
 """
 type Query {
@@ -223,6 +237,13 @@ type Query {
 
   "Fetches a user."
   user(id: String!): User!
+
+  #  TODO: Add userPersonalizations query to fetch all userPersonalizations
+  #   (a)for a given user by user_id
+  #   (b) of specified type and value e.g frequency = daily
+
+  "Fetches a user."
+  userPersonalization(id: String!): UserPersonalization!
 
   "Fetches some reviews."
   reviews(
@@ -259,6 +280,12 @@ input UserInputType {
   last_signed_in: Float!
 }
 
+input UserPersonalizationInputType {
+  id: String!
+  type: String!
+  value: String!
+}
+
 input LearnMoreInputType {
   message: String!
 }
@@ -276,6 +303,16 @@ type Mutation {
 
   "Updates a user record."
   updateUser(user: UserInputType!): User!
+
+  "Upserts a user personalization record."
+  upsertUserPersonalization(
+    userPersonalization: UserPersonalizationInputType!
+  ): UserPersonalization!
+
+  "Updates a user personalization record."
+  updateUserPersonalization(
+    userPersonalization: UserPersonalizationInputType!
+  ): UserPersonalization!
 
   "Creates a review record."
   insertReview(review: ReviewInputType!): Review!

@@ -1,0 +1,10 @@
+mutation updateUserPersonalization(
+  $userPersonalization: UserPersonalizationInputType!
+) {
+  updateUserPersonalization(userPersonalization: $userPersonalization) {
+    id
+    user_id
+    type
+    value
+  }
+}
